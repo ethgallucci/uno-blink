@@ -1,7 +1,6 @@
 [package]
 name = "rust-arduino-blink"
 version = "0.1.0"
-edition = "2021"
 
 [build]
 target = "avr-atmega328p.json"
@@ -12,6 +11,13 @@ build-std = ["core"]
 [dependencies]
 panic-halt = "0.2.0"
 
-[dependencies.arduino-uno]
+[dependencies.arduino-hal]
 git = "https://github.com/Rahix/avr-hal"
-rev = "536c5d"
+rev = "92d540c"
+features = ["arduino-uno"]
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"

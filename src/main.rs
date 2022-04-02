@@ -1,27 +1,14 @@
-#![no_std]
+#![no_std]  // Embedded mode (only lib-core)
 #![no_main]
 
-extern crate panic_halt;
-use arduino_uno::hal::port::mode::Output;
-use arduino_uno::hal::port::portb::PB5;
-use arduino_uno::prelude::*;
+use core::panic::PanicInfo;
 
-#[arduino_uno::entry]
-fn blink() -> ! {
-    let peripherals = arduino_uno::Peripherals::take().unwrap();
-
-    let mut pins = arduino_uno::Pins::new(peripherals.PORTB, peripherals.PORTC, peripherals.PORTD);
-
-    let mut led = pins.d13.into_output(&mut pins.addr);
-
-    loop {
-        stutter_blink(&mut led, 25);
-    }
+#[panic_handler]
+fn panic(_info: &PanicInfo) -> ! {
+    loop {}
 }
 
-fn stutter_blink(led: &mut PB5<Output>, times: usize) {
-    (0..times).map(|i| i * 10).for_each(|i| {
-        led.toggle().void_unwrap();
-        arduino_uno::delay_ms(i as u16);
-    });
+#[arduino_hal::entry]
+fn main() -> ! {
+    loop {}
 }
