@@ -18,6 +18,7 @@ fn main() -> ! {
     // Access d13 port
     let mut led = pins.d13.into_output();
 
+    // Stutter blink
     loop {
         led.toggle();
         arduino_hal::delay_ms(1000);
